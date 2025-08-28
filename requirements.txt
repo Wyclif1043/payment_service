@@ -6,9 +6,11 @@ Django==5.2.3
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
+gunicorn==23.0.0
 idna==3.10
 isodate==0.7.2
 lxml==6.0.0
+packaging==25.0
 platformdirs==4.3.8
 PyJWT==2.9.0
 pytz==2025.2
