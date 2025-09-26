@@ -31,11 +31,11 @@ class Payment(models.Model):
     ]
 
     user_id = models.IntegerField()
-    platform = models.ForeignKey(Platform, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    platform = models.ForeignKey(Platform, on_delete=models.CASCADE, null=True, blank=True) 
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)    
     phone = models.CharField(max_length=20)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    duration = models.CharField(max_length=20)
+    duration = models.CharField(max_length=20, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="initiated")
     transaction_reference = models.CharField(max_length=100, null=True, blank=True)
     kopokopo_location = models.CharField(max_length=255, null=True, blank=True)
@@ -46,10 +46,48 @@ class Payment(models.Model):
     payment_data = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    organization = models.ForeignKey("Organization", on_delete=models.CASCADE, null=True, blank=True)
+
 
     laravel_payment_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"Payment {self.id} - {self.status}"
+
+
+
+class Organization(models.Model):
+    code = models.CharField(max_length=10, unique=True)
+    name = models.CharField(max_length=100)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
+GATEWAY_CHOICES = [
+    ("KOPOKOPO", "KopoKopo"),
+    ("CYBERSOURCE", "CyberSource"),
+]
+
+class PaymentGatewayConfig(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="gateway_configs")
+    gateway = models.CharField(max_length=50, choices=GATEWAY_CHOICES)
+    client_id = models.CharField(max_length=255, default="default_client_id_here")
+    client_secret = models.CharField(max_length=255)
+    api_key = models.CharField(max_length=255, blank=True, null=True)
+    till_number = models.CharField(max_length=50, blank=True, null=True)
+    base_url = models.URLField(max_length=500)
+    callback_url = models.URLField(max_length=500)
+    active = models.BooleanField(default=True)  # to mark which config to use
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("organization", "gateway")
+
+    def __str__(self):
+        return f"{self.organization.code} - {self.gateway}"
 
     
