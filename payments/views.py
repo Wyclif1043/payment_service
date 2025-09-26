@@ -251,7 +251,6 @@ class InitiateCardPayment(APIView):
             transaction_uuid = str(uuid.uuid4())
             reference_number = f"EXO-{int(datetime.datetime.now().timestamp())}-{data['user_id']}"
 
-            # Core CyberSource fields
             fields = {
                 "access_key": settings.CYBERSOURCE_ACCESS_KEY,
                 "profile_id": settings.CYBERSOURCE_PROFILE_ID,
@@ -272,7 +271,6 @@ class InitiateCardPayment(APIView):
                 "reference_number": reference_number,
                 "amount": str(amount),
                 "currency": currency,
-                # --- Hardcoded billing info for TEST ---
                 "bill_to_forename": "John",
                 "bill_to_surname": "Doe",
                 "bill_to_address_line1": "123 Test Street",
@@ -284,7 +282,6 @@ class InitiateCardPayment(APIView):
             fields["signature"] = sign_fields(fields, settings.CYBERSOURCE_SECRET_KEY)
 
 
-            # Lookup product/platform safely (optional)
             platform = Platform.objects.filter(id=data.get("platform_id")).first() if data.get("platform_id") else None
             product = Product.objects.filter(id=data.get("product_id")).first() if data.get("product_id") else None
 
@@ -315,7 +312,6 @@ class InitiateCardPayment(APIView):
 
 
 
-# --- Step 2: CyberSource Notification ---
 class CyberSourceNotification(APIView):
     def post(self, request):
         data = request.data
@@ -358,7 +354,6 @@ class CyberSourceNotification(APIView):
             return Response({"error": str(e)}, status=500)
 
 
-# --- Step 3: CyberSource Response (redirect after payment) ---
 class CyberSourceResponse(APIView):
     def post(self, request):
         data = request.data
@@ -377,7 +372,6 @@ class CyberSourceResponse(APIView):
         if not payment:
             return Response({"error": "Payment not found"}, status=404)
 
-        # Same status mapping
         status_map = {
             "ACCEPT": "completed",
             "DECLINE": "failed",
@@ -391,7 +385,6 @@ class CyberSourceResponse(APIView):
         return Response({"status": payment.status})
 
 
-# --- Step 4: Cancel endpoint ---
 class CyberSourceCancel(APIView):
     def post(self, request):
         transaction_uuid = request.data.get("req_transaction_uuid")
