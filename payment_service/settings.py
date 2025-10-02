@@ -100,12 +100,8 @@ WSGI_APPLICATION = 'payment_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'payment_service_db',
-        'USER': 'payment_service_db_user',
-        'PASSWORD': 'rIGsJR72WCAqboxmmor4TgK5PtrT7Ux5',
-        'HOST': 'dpg-d3f27g95pdvs73cdb86g-a',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
