@@ -98,13 +98,15 @@ WSGI_APPLICATION = 'payment_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import dj_database_url
-import os
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'payment_service_db',
+        'USER': 'payment_service_db_user',
+        'PASSWORD': 'rIGsJR72WCAqboxmmor4TgK5PtrT7Ux5',
+        'HOST': 'dpg-d3f27g95pdvs73cdb86g-a',
+        'PORT': '5432',
+    }
 }
 
 
