@@ -98,19 +98,16 @@ WSGI_APPLICATION = 'payment_service.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+import os
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'NAME': 'PaymentGateWay',
-        'USER': 'sa',
-        'PASSWORD': 'pass123',
-        'HOST': '127.0.0.1',
-        'PORT': '',  
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL")
+    )
 }
+
+
 
 
 
