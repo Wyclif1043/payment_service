@@ -170,7 +170,7 @@ CYBERSOURCE_ACCESS_KEY = "be24a2df76553506bdb6328ee3fab082"
 CYBERSOURCE_PROFILE_ID = "6AF44E7A-8A82-4C4E-82FF-C9ABC436498D"
 CYBERSOURCE_SECRET_KEY = "0ccbb472ebec4c7d98f3df6576e910d9b5b891ed55f54b6d9aa4b4fa122abde7ba5e1153d75b49618dc92f06576a400bd497049a1e6a4d2bb4f6ae5894eb258c8713467aea6b41e4acedb442f14d0bdf048abfb770f34e4bacd2ec56b632540ad41ffe560f954b74bf0c932a6552661b823a2a2483344e358d997fa7cb54d341"
 CYBERSOURCE_API_URL = "https://secureacceptance.cybersource.com/pay"
-CYBERSOURCE_RECEIPT_URL = "https://api.exoticnairobi.com/api/cybersource/response/"
+CYBERSOURCE_RECEIPT_URL = "https://secureacceptance.cybersource.com/pay/api/cybersource/response/"
 CYBERSOURCE_CANCEL_URL = "https://paymentservice-nwg5.onrender.com/api/cybersource/cancel/"
 
 # settings.py
