@@ -392,8 +392,5 @@ class CyberSourceCancel(APIView):
             Payment.objects.filter(transaction_uuid=transaction_uuid).update(status="canceled")
         return Response({"status": "canceled"})
 
-class OrganizationViewSet(viewsets.ModelViewSet):
-    queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
 
             
