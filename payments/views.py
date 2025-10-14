@@ -392,5 +392,4 @@ class CyberSourceCancel(APIView):
             Payment.objects.filter(transaction_uuid=transaction_uuid).update(status="canceled")
         return Response({"status": "canceled"})
 
-
             
