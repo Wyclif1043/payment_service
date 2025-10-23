@@ -167,7 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # KOPOKOPO_API_KEY = "485b588c7d1a6e64cb0839282f7f543cbd1b5047"
 
 # Laravel endpoint to update payment status
-LARAVEL_UPDATE_URL = "https://api.exoticnairobi.com/api/payment/update"
+LARAVEL_UPDATE_URL = "https://testing.exotic-ads.com/api/payment/update"
 
 
 
