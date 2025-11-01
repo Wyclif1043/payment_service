@@ -103,11 +103,10 @@ import dj_database_url
 import os
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://payment_service_db_user:rIGsJR72WCAqboxmmor4TgK5PtrT7Ux5@dpg-d3f27g95pdvs73cdb86g-a.oregon-postgres.render.com/payment_service_db',
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
 }
 
 
