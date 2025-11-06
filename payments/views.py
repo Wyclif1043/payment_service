@@ -271,12 +271,12 @@ class InitiateCardPayment(APIView):
                 "reference_number": reference_number,
                 "amount": str(amount),
                 "currency": currency,
-                "bill_to_forename": "John",
-                "bill_to_surname": "Doe",
-                "bill_to_address_line1": "123 Test Street",
+                "bill_to_forename": "Julian",
+                "bill_to_surname": "Papa",
+                "bill_to_address_line1": "P.O. Box 30075-00100",
                 "bill_to_address_city": "Nairobi",
                 "bill_to_address_country": "KE",
-                "bill_to_email": "testuser@example.com",
+                "bill_to_email": "wyclif.omondi@swizzsoft.com",
                 "bill_to_phone": "254700000000",
             }
             fields["signature"] = sign_fields(fields, settings.CYBERSOURCE_SECRET_KEY)

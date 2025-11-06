@@ -175,6 +175,17 @@ CYBERSOURCE_API_URL = "https://secureacceptance.cybersource.com/pay"
 CYBERSOURCE_RECEIPT_URL = "https://secureacceptance.cybersource.com/pay/api/cybersource/response/"
 CYBERSOURCE_CANCEL_URL = "https://paymentservice-nwg5.onrender.com/api/cybersource/cancel/"
 
+
+# settings.py
+# Daraja endpoints
+MPESA_SANDBOX_OAUTH = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+MPESA_PROD_OAUTH = "https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+MPESA_SANDBOX_STK = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+MPESA_PROD_STK = "https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+
+# URL where Safaricom will POST STK callbacks (must be publicly reachable)
+# You already use callback_url per org_config; ensure that is set for MPESA config
+
 # settings.py
 
 KOPOKOPO_CONFIGS = {
@@ -203,6 +214,47 @@ KOPOKOPO_CONFIGS = {
         "BASE_URL": "https://api.kopokopo.com",
     },
 }
+
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] [{levelname}] {name}: {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {  # Logs to terminal
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {  # Logs to file
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'payment_logs.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
+        # Your app logger (replace `your_app_name` with actual app name)
+        'payments': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
 
 PARTNER_UPDATE_URL = "https://partnerdomain.com/api/payments/update"
 

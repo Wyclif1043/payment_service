@@ -68,18 +68,28 @@ class Organization(models.Model):
 GATEWAY_CHOICES = [
     ("KOPOKOPO", "KopoKopo"),
     ("CYBERSOURCE", "CyberSource"),
+    ("MPESA", "M-PESA"),
 ]
 
 class PaymentGatewayConfig(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="gateway_configs")
     gateway = models.CharField(max_length=50, choices=GATEWAY_CHOICES)
+
     client_id = models.CharField(max_length=255, default="default_client_id_here")
     client_secret = models.CharField(max_length=255)
     api_key = models.CharField(max_length=255, blank=True, null=True)
     till_number = models.CharField(max_length=50, blank=True, null=True)
     base_url = models.URLField(max_length=500)
     callback_url = models.URLField(max_length=500)
-    active = models.BooleanField(default=True)  # to mark which config to use
+    active = models.BooleanField(default=True)
+
+    mpesa_consumer_key = models.CharField(max_length=255, blank=True, null=True)
+    mpesa_consumer_secret = models.CharField(max_length=255, blank=True, null=True)
+    mpesa_shortcode = models.CharField(max_length=50, blank=True, null=True)
+    mpesa_passkey = models.CharField(max_length=255, blank=True, null=True)
+    mpesa_initiator_name = models.CharField(max_length=255, blank=True, null=True)
+    mpesa_initiator_password = models.CharField(max_length=255, blank=True, null=True)
+    mpesa_environment = models.CharField(max_length=20, choices=[("sandbox","Sandbox"),("production","Production")], default="sandbox")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
