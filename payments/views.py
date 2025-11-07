@@ -238,6 +238,105 @@ class PaymentCallback(APIView):
         return Response({"status": "ok"})
             
 
+class MpesaCallback(APIView):
+    """
+    Endpoint that Safaricom Daraja calls to report STK push result.
+    Make sure this URL is what you set as CallBackURL (org_config.callback_url).
+    """
+    authentication_classes = []  # typically Safaricom won't sign with your auth; allow anonymous
+    permission_classes = []
+
+    def post(self, request):
+        try:
+            raw = request.data
+            logger.info("MPESA Callback received: %s", json.dumps(raw))
+        except Exception as e:
+            logger.error("Invalid MPESA callback payload: %s", str(e))
+            return Response({"error": "Invalid payload"}, status=400)
+
+        # Normal Daraja STK push callback path Body.stkCallback
+        body = raw.get("Body") or raw.get("body") or raw
+        stk_callback = body.get("stkCallback") if body else None
+        if not stk_callback:
+            logger.warning("No stkCallback in payload")
+            return Response({"error": "No stkCallback in payload"}, status=400)
+
+        checkout_request_id = stk_callback.get("CheckoutRequestID")
+        merchant_request_id = stk_callback.get("MerchantRequestID")
+        result_code = stk_callback.get("ResultCode")
+        result_desc = stk_callback.get("ResultDesc")
+        callback_metadata = stk_callback.get("CallbackMetadata", {})
+
+        # Try to find Payment by transaction_reference (CheckoutRequestID)
+        try:
+            payment = Payment.objects.filter(transaction_reference=checkout_request_id).first()
+            if not payment:
+                # optionally try to find by metadata account reference if present
+                # you saved AccountReference as "PAY-<id>" so search for that
+                # some integrations put the payment.id in metadata; try to be flexible
+                # fallback: loop through metadata items to find "MpesaReceiptNumber" etc.
+                logger.warning("Payment not found for CheckoutRequestID: %s", checkout_request_id)
+                return Response({"status": "ok"})  # still return 200 so Daraja won't retry endlessly
+        except Exception as e:
+            logger.error("Error finding payment: %s", str(e))
+            return Response({"error": "server error"}, status=500)
+
+        # Interpret result code
+        if result_code == 0:
+            # success -> extract amount, receipt number, phone
+            amount = None
+            receipt = None
+            phone = None
+            try:
+                items = callback_metadata.get("Item") or callback_metadata.get("Items") or []
+                # items is a list of dicts with Name/Value keys
+                for it in items:
+                    name = it.get("Name")
+                    value = it.get("Value")
+                    if name and name.lower() in ("amount", "transactionamount"):
+                        amount = value
+                    if name and name.lower() in ("mpesareceiptnumber", "receiptnumber"):
+                        receipt = value
+                    if name and name.lower() in ("phonenumber", "msisdn"):
+                        phone = value
+            except Exception:
+                logger.exception("Error parsing callback metadata")
+
+            payment.status = "completed"
+            payment.raw_payload.update({"mpesa_callback": stk_callback})
+            # if amount exists, update
+            if amount:
+                payment.amount = amount
+            payment.transaction_id = receipt or payment.transaction_id
+            payment.save()
+
+            # optional: notify your Laravel system as you did for KopoKopo
+            try:
+                if payment.organization and payment.organization.code == "76":
+                    notify_payload = {
+                        "organization_code": payment.organization.code,
+                        "payment_id": payment.laravel_payment_id,
+                        "status": payment.status,
+                        "transaction_reference": receipt,
+                        "amount": amount,
+                        "currency": payment.currency,
+                        "resource": stk_callback,
+                        "metadata": payment.raw_payload.get("metadata"),
+                        "rawData": stk_callback,
+                    }
+                    resp = requests.post(settings.LARAVEL_UPDATE_URL, json=notify_payload, timeout=10)
+                    logger.info(f"Laravel notified for mpesa. Status={resp.status_code}, Response={resp.text}")
+            except Exception:
+                logger.exception("Failed to notify Laravel for mpesa")
+        else:
+            # non-zero is failure or cancelled
+            payment.status = "failed"
+            payment.raw_payload.update({"mpesa_callback": stk_callback})
+            payment.save()
+
+        logger.info(f"Payment {payment.id} updated to {payment.status} from mpesa callback")
+        # Respond 200 OK to Daraja
+        return Response({"status": "ok"})
 
 
 class InitiateCardPayment(APIView):
