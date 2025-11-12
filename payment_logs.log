@@ -1,0 +1,43 @@
+[2025-11-12 01:02:06,513] [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+[2025-11-12 01:25:46,775] [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+[2025-11-12 03:02:24,886] [INFO] django.server: "OPTIONS /api/member-account-statistics/?member_no=61 HTTP/1.1" 200 0
+[2025-11-12 03:02:24,889] [INFO] django.server: "OPTIONS /api/loans-for-guarantee/?member=61 HTTP/1.1" 200 0
+[2025-11-12 03:02:24,890] [INFO] django.server: "OPTIONS /api/loans-for-guarantee/?member=61 HTTP/1.1" 200 0
+[2025-11-12 03:02:24,890] [INFO] django.server: "OPTIONS /api/member-account-statistics/?member_no=61 HTTP/1.1" 200 0
+[2025-11-12 03:02:24,949] [WARNING] django.request: Not Found: /api/member-account-statistics/
+[2025-11-12 03:02:24,952] [WARNING] django.server: "GET /api/member-account-statistics/?member_no=61 HTTP/1.1" 404 2443
+[2025-11-12 03:02:24,950] [WARNING] django.request: Not Found: /api/loans-for-guarantee/
+[2025-11-12 03:02:24,967] [WARNING] django.server: "GET /api/loans-for-guarantee/?member=61 HTTP/1.1" 404 2422
+[2025-11-12 03:02:24,974] [WARNING] django.request: Not Found: /api/loans-for-guarantee/
+[2025-11-12 03:02:24,976] [WARNING] django.request: Not Found: /api/member-account-statistics/
+[2025-11-12 03:02:24,983] [WARNING] django.server: "GET /api/member-account-statistics/?member_no=61 HTTP/1.1" 404 2443
+[2025-11-12 03:02:24,984] [WARNING] django.server: "GET /api/loans-for-guarantee/?member=61 HTTP/1.1" 404 2422
+[2025-11-12 03:48:27,552] [INFO] django.server: "OPTIONS /api/login-member/ HTTP/1.1" 200 0
+[2025-11-12 03:48:27,560] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:48:27,561] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 03:48:49,084] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:48:49,085] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 03:49:44,984] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:49:44,985] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 03:49:56,857] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:49:56,858] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 03:51:09,398] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:51:09,399] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 03:51:40,247] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:51:40,248] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 03:52:18,013] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 03:52:18,014] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 04:01:25,636] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 04:01:25,637] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 04:05:59,437] [WARNING] django.request: Not Found: /api/login-member/
+[2025-11-12 04:05:59,438] [WARNING] django.server: "POST /api/login-member/ HTTP/1.1" 404 2392
+[2025-11-12 12:53:36,020] [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+[2025-11-12 12:57:56,391] [INFO] django.server: "GET /api/payments/gateway-configs HTTP/1.1" 301 0
+[2025-11-12 12:57:56,413] [INFO] django.server: "GET /api/payments/gateway-configs/ HTTP/1.1" 200 685
+[2025-11-12 12:59:29,072] [WARNING] django.request: Bad Request: /api/payments/gateway-configs/1/
+[2025-11-12 12:59:29,073] [WARNING] django.server: "PUT /api/payments/gateway-configs/1/ HTTP/1.1" 400 208
+[2025-11-12 13:00:51,312] [INFO] django.server: "PUT /api/payments/gateway-configs/1/ HTTP/1.1" 200 688
+[2025-11-12 13:00:57,259] [INFO] django.server: "GET /api/payments/gateway-configs HTTP/1.1" 301 0
+[2025-11-12 13:00:57,272] [INFO] django.server: "GET /api/payments/gateway-configs/ HTTP/1.1" 200 690
+[2025-11-12 13:21:07,828] [INFO] django.server: "GET /api/payments/gateway-configs HTTP/1.1" 301 0
+[2025-11-12 13:21:07,848] [INFO] django.server: "GET /api/payments/gateway-configs/ HTTP/1.1" 200 690
